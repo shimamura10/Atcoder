@@ -12,5 +12,5 @@ for i in range(97,97+6):
     f = open(file_path, 'a')
     f.close()
     os.startfile(os.path.normpath(file_path))
-    time.sleep(0.1)
+    time.sleep(0.5)
 os.startfile(os.path.normpath(new_dir_path + "/ABC" + num + "a.py"))
