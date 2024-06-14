@@ -18,7 +18,7 @@ class SegmentTree:
             k >>= 1
             self.tree[k] = self.segfunc(self.tree[2*k], self.tree[2*k+1])
 
-    def query(self, l, r):  #l<n<=r番目の要素についてクエリを実行
+    def query(self, l, r):  #l<=n<r番目の要素についてクエリを実行
         if r==self.size:    #全範囲はl=0,r=Nのとき
             r = self.num
 
