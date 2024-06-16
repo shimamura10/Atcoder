@@ -43,7 +43,7 @@ int main(){
         }
         if (parents[next] == i) {
             int start{next};
-            int next2{edges[start]}
+            int next2{edges[start]};
         }
     }
     unordered_map<int, int> circles;

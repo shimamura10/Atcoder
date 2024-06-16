@@ -1,22 +1,5 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-#include <functional>
-#include <unordered_map>
-#include <memory>
-#include <queue>
-#include <unordered_set>
-#include <limits>
-#include <tuple>
-#include <numeric>
-#include <set>
-#include <random>
-#include <string>
 using namespace std;
-using ll = long long;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-using vl = vector<long long>;
 
 // modint: mod 計算を int を扱うように扱える構造体
 template<int MOD> struct Fp {
@@ -66,6 +49,7 @@ template<int MOD> struct Fp {
     friend constexpr ostream& operator << (ostream &os, const Fp<MOD>& x) noexcept {
         return os << x.val;
     }
+
     friend constexpr Fp<MOD> modpow(const Fp<MOD> &a, long long n) noexcept {
         if (n == 0) return 1;
         auto t = modpow(a, n / 2);
@@ -73,15 +57,40 @@ template<int MOD> struct Fp {
         if (n & 1) t = t * a;
         return t;
     }
+
+    friend constexpr Fp<MOD> modpow(long long a, long long n) noexcept {
+        return modpow(Fp<MOD>(a), n);
+    }
 };
 
-const int MOD = 998244353;
-using mint = Fp<MOD>;
+// template<int MOD>
+// constexpr Fp<MOD> modpow(const Fp<MOD> &a, long long n) noexcept {
+//     if (n == 0) return 1;
+//     auto t = modpow(a, n / 2);
+//     t = t * t;
+//     if (n & 1) t = t * a;
+//     return t;
+// }
 
-int main(){
-    ll N;
-    cin >> N;
-    mint mN{N};
-    auto K{to_string(N).size()};
-    cout << mint{N} * (modpow(modpow(mint(10), N), K) - 1) / (modpow(mint(10), K) - 1) << endl;
+// template<int MOD>
+// constexpr Fp<MOD> modpow(long long a, long long n) noexcept {
+//     return modpow(Fp<MOD>(a), n);
+// }
+
+int main() {
+    // MOD を 1000000007 に設定した Fp クラスのインスタンスを定義
+    constexpr int MOD = 1000000007;
+    using ModInt = Fp<MOD>;
+
+    // 基数 a と指数 n を定義
+    long long a = 2;
+    long long n = 10;
+
+    // a の n 乗を MOD で割った余りを計算
+    ModInt result = modpow(a, n);
+
+    // 結果を出力
+    cout << "2^10 % 1000000007 = " << result << endl;
+
+    return 0;
 }

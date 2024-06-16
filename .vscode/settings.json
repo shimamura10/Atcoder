@@ -4,6 +4,8 @@
         "queue": "cpp",
         "iostream": "cpp",
         "random": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "xtree": "cpp",
+        "ostream": "cpp"
     }
 }
