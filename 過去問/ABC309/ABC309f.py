@@ -11,7 +11,7 @@ class SegmentTree:
         for i in range(self.num - 1, 0, -1):
             self.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])
 
-    def update(self, k, x):  #k番目の要素のノードをxに更新
+    def update(self, k, x):  #k番目の要素のノードをxに更新(kは始めを0として数える)
         k += self.num
         self.tree[k] = x
         while k > 1:
@@ -19,8 +19,8 @@ class SegmentTree:
             self.tree[k] = self.segfunc(self.tree[2*k], self.tree[2*k+1])
 
     def query(self, l, r):  #l<=n<r番目の要素についてクエリを実行
-        if r==self.size:    #全範囲はl=0,r=Nのとき
-            r = self.num
+        if r==self.size:    #l,rは始めの要素を0として数える
+            r = self.num    #全範囲はl=0,r=Nのとき
 
         res = self.ide_ele
 
@@ -74,3 +74,26 @@ class SegmentTree:
             return pos-self.num
         else:
             return -1
+N = int(input())
+hwd = [sorted(list(map(int,input().split()))) for _ in range(N)]
+def cmp(A):
+    cmpB = sorted(set(A))
+    cmpD = { v: i for i, v in enumerate(cmpB)}
+    return cmpD
+cmpH = cmp([hwd[i][0] for i in range(N)])
+cmpW = cmp([hwd[i][1] for i in range(N)])
+cmpD = cmp([hwd[i][2] for i in range(N)])
+for i in range(N):
+  hwd[i][0] = cmpH[hwd[i][0]]
+  hwd[i][1] = cmpW[hwd[i][1]]
+  hwd[i][2] = cmpD[hwd[i][2]]
+smt = SegmentTree([N+1]*N,lambda a,b: min(a,b), N+1)
+hwd.sort(key=lambda x:x[1], reverse=True)
+hwd.sort()
+for h,w,d in hwd:
+  mind = smt.query(0, w)
+  if mind < d:
+    print('Yes')
+    exit()
+  smt.update(w,min(d,smt.query(w,w+1)))
+print('No')

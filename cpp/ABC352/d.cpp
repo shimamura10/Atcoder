@@ -10,35 +10,51 @@
 #include <tuple>
 #include <numeric>
 #include <set>
+#include <random>
 using namespace std;
 using ll = long long;
 using vi = vector<int>;
 using vvi = vector<vector<int>>;
 using vl = vector<long long>;
 
+int count_twos(ll n)
+{
+    int ret{0};
+    while (n%2 == 0 && n > 1)
+    {
+        ret++;
+        n /= 2;
+    }
+    return ret;
+}
+
 int main(){
-    int N, K;
-    cin >> N >> K;
-    vi P;
-    unordered_map<int, int> pos;
-    for (int i=0; i<N; i++) {
-        int p;
-        cin >> p;
-        P.emplace_back(p);
-        pos[p] = i;
+    ll L, R;
+    cin >> L >> R;
+    ll l{L};
+    vector<pair<ll, ll>> ans{};
+    if (l == 0) {
+        ll r{1};
+        while (r*2 <= R)
+        {
+            r *= 2;
+        }
+        ans.emplace_back(l, r);
+        l = r;
     }
-
-    set<int> s;
-    for (int i=1; i<K; i++) {
-        s.insert(pos[i]);
+    while (l<R)
+    {
+        auto num_tows = count_twos(l);
+        ll d{1LL<<num_tows};
+        while (l + d > R)
+        {
+            d /= 2;
+        }
+        ans.emplace_back(l, l+d);
+        l += d;
     }
-
-    int ans{K};
-    for (int i=K; i<=N; i++) {
-        s.insert(pos[i]);
-        ans = min(ans, *s.rbegin() - *s.begin());
-        s.erase(pos[i-K+1]);
+    cout << ans.size() << endl;
+    for (auto a: ans) {
+        cout << a.first << " " << a.second << endl;
     }
-
-    cout << ans;
 }
