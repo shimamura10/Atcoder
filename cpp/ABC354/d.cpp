@@ -31,13 +31,14 @@ ll calcY(ll x, ll y) {
                     {0, 2, 3, 5},
                     {0, 1, 3, 4},
                     {0, 0, 1, 1}};
+    ll blackY4[4] = {2, 6, 6, 2};
     ll mod = y%4;
-    return y - mod + black[x%4][y%4];
+    return (y/4)*blackY4[x%4] - mod + black[x%4][y%4];
 }
 
 
 
-int upper4(int a) {
+ll upper4(ll a) {
     if (a%4 == 0) {
         return a;
     }
@@ -49,23 +50,28 @@ ll resolve (ll& a, ll& b, ll& c, ll& d) {
                         {1, 2, 1, 2},
                         {2, 1, 2, 1},
                         {1, 0, 1, 0}};
+    auto X{upper4(c)}, Y{upper4(d)};
     ll ret{upper4(c) * upper4(d)};
     // 下側を引く
     for (int y=1; y<=b%4; y++) {
-        ret -= calcX(c, y);
+        ret -= calcX(X, y);
     }
+    // ret -= b*X;
     // 左側を引く
     for (int x=1; x<=a%4; x++) {
-        ret -= calcY(x, d);
+        ret -= calcY(x, Y);
     }
+    // ret -= a*Y;
     // 上側を引く
     for (int y=d+1; y<=upper4(d); y++) {
-        ret -= calcX(c, y);
+        ret -= calcX(X, y);
     }
+    // ret -= X*(Y-d);
     // 右側を引く
     for (int x=c+1; x<=upper4(c); x++) {
-        ret -= calcY(x, d);
+        ret -= calcY(x, Y);
     }
+    // ret -= (X-c)*Y;
     // 左下を足す
     for (int x=1; x<=a; x++) {
         for (int y=1; y<= b; y++) {
