@@ -8,8 +8,16 @@
 #include <unordered_set>
 #include <limits>
 #include <tuple>
+#include <numeric>
+#include <set>
+#include <random>
+#include <string>
 using namespace std;
 using ll = long long;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using vl = vector<long long>;
+const ll MOD = 998244353;
 
 template <typename T>
 class Dijkstra
@@ -86,5 +94,21 @@ public:
 };
 
 int main(){
-    
+    int N, M;
+    cin >> N >> M;
+    Dijkstra<int> dijkstra;
+    for (int i=0; i<M; ++i){
+        int a, b;
+        ll c;
+        cin >> a >> b >> c;
+        a--; b--;
+        dijkstra.addEdge(a, b, c);
+        dijkstra.addEdge(b, a, c);
+    }
+
+    auto distances_from0 = dijkstra.shortestDistance(0);
+    auto distances_fromN = dijkstra.shortestDistance(N-1);
+    for (int i=0; i<N; ++i){
+        cout << distances_from0[i] + distances_fromN[i] << endl;
+    }
 }
