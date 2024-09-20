@@ -19,6 +19,7 @@ using vvi = vector<vector<int>>;
 using vl = vector<long long>;
 const ll MOD = 998244353;
 
+
 int main(){
     int N;
     cin >> N;
@@ -47,4 +48,5 @@ int main(){
     }
 
     cout << dp[(1<<N)-1] << endl;
+
 }
