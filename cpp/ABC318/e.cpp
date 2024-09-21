@@ -22,9 +22,9 @@ const ll MOD = 998244353;
 int main(){
     int N;
     cin >> N;
-    vvi A(N);
+    vector<vector<ll>> A(N);
     for (int i = 0; i < N; ++i) {
-        int a;
+        ll a;
         cin >> a;
         A[a-1].emplace_back(i);
     }
@@ -33,10 +33,13 @@ int main(){
     for (const auto& va : A) {
         if (va.size() <= 1) continue;
         ll cntj = 0;
-        int prea = va[0];
-        for (int j = 1; j < va.size(); ++j){
-            ans += (cntj+va[j]-prea-1)*j;
-            cntj += 
+        auto prea = va[0];
+        for (ll j = 1; j < va.size(); ++j){
+            ans += cntj+(va[j]-prea-1LL)*j;
+            cntj += (va[j] - prea - 1LL)*j;
+            prea = va[j];
         }
     }
+
+    cout << ans << endl;
 }
