@@ -49,27 +49,39 @@ int main(){
             if (cnt[i][j] != -1) continue;
             vector<pair<int, int>> stack = {{i, j}};
             vector<pair<int, int>> visited{{i, j}};
-            int num = 0;
+            set<int> found1{};
+            entried[i][j] = 1;
             while (!stack.empty()) {
                 auto [ci, cj] = stack.back();
                 stack.pop_back();
-                if (entried[ci][cj] == 1 || cnt[ci][cj] == 1) continue;
-                entried[ci][cj] = 1;
+                if (cnt[ci][cj] == 1) { continue; }
                 for (const auto& d : dir) {
                     int ni = ci + d.first;
                     int nj = cj + d.second;
                     if (ni < 0 || ni >= H || nj < 0 || nj >= W) continue;
                     if (S[ni][nj] == '#') continue;
-                    if (cnt[ni][nj] == 1) {num++; continue;}
+                    if (cnt[ni][nj] == 1) {
+                        found1.insert(ni*W+nj); 
+                        continue;
+                    }
+                    if (entried[ni][nj] == 1) continue;
+                    entried[ni][nj] = 1;
                     visited.push_back({ni, nj});
                     stack.push_back({ni, nj});
                 }
             }
-            num += visited.size();
+            int num = visited.size() + found1.size();
             for (const auto& [ci, cj] : visited) {
                 cnt[ci][cj] = num;
             }
         }
     }
-    cout << cnt[H-1][W-1] << endl;
+
+    int M = 0;
+    for (int i=0; i<H; ++i) {
+        for (int j=0; j<W; ++j) {
+            M = max(M, cnt[i][j]);
+        }
+    }
+    cout << M << endl;
 }
