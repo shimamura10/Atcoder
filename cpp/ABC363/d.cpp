@@ -20,36 +20,37 @@ using vl = vector<long long>;
 const int MOD = 998244353;
 
 int main(){
-    vector<ll> dp{9, 9};
-    for (int i = 2; i < 38; i++) {
-        dp.push_back(dp[i-2]*9LL + 9LL);
-    }
-
     ll N;
     cin >> N;
-    if (N == 1) {
-        cout << 0 << endl;
+    if (N <= 10) {
+        cout << N-1 << endl;
         return 0;
     }
-    N -= 1;
-    for (int i = 0; i < 38; i++) {
-        if (N <= dp[i]) {
+    vector<ll> A{10, 9};
+    for (ll i = 1; i < 18; i++) {
+        A.push_back(pow(10LL, i)*9LL);
+        A.push_back(pow(10LL, i)*9LL);
+    }
+    for (ll i = 0; i < A.size(); i++) {
+        if (N <= A[i]) {
+            N--;
             vi ans;
-            while (i > 0) {
-                auto tmp = dp[i]/9;
-                ans.push_back(N/tmp);
-                N %= tmp;
-                i -= 2;
+            for (ll j = 0; j < i/2+1; j++) {
+                ans.push_back(N%10);
+                N /= 10;
             }
-            ans.push_back(N);
-            for (int j = i/2; j>=0; j--) {
-                ans.push_back(ans[j]);
+            ans.back()++;
+            string s;
+            for (ll j = ans.size()-1; j >= (i+1)%2; j--) {
+                s += to_string(ans[j]);
             }
-            for (int j = 0; j < ans.size(); j++) {
-                cout << ans[j];
+            for (const auto& a : ans) {
+                s += to_string(a);
             }
+            cout << s << endl;
             return 0;
         }
-        N -= dp[i];
+        N -= A[i];
     }
+    return 0;
 }

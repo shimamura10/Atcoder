@@ -2,6 +2,9 @@
 using namespace std;
 
 int main() {
+    cout << !-1 << endl;
+    cout << !0 << endl;
+    cout << !1 << endl;
     vector<int> A = {1, 2};
     vector<string> B = {"a", "b", "c"};
     for (const auto& [a, b] : std::views::cartesian_product(A, B)) {
