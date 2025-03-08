@@ -8,4 +8,5 @@ for i in range(len(a)):
     idx = bisect_left(dp,a[i])
     dp[idx] = a[i]
     n.append(idx+1)
+    print(dp)
 print(n)   #[1, 2, 2, 3, 1]
